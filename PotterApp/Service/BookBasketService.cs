@@ -25,13 +25,18 @@ namespace PotterApp.Service
             for (int i = 1; i <= quantity; i++)
             {
                 var book = new Book(bookType);
-                var probableBaskets = _bookSets.Where(x => !x.Exists(book));
 
+                //check for available baskets to store book
+                var probableBaskets = _bookSets.Where(x => !x.Exists(book));
+                
+                //if exists that means new book type found and have to calculate the price.
                 if (probableBaskets.Any())
                 {
                     BookSet addedBookSet = AddAppropriateBasket(probableBaskets, book);
                     addedBookSet.Addbook(book);
                 }
+                
+                //no appropriate basket found so need to add new basket
                 else
                 {
                     var bookSet = new BookSet();
@@ -49,7 +54,7 @@ namespace PotterApp.Service
             foreach (var bookSet in probableBaskets)
             {
                 bookSet.Addbook(book);
-                
+                //check which basket has the less price
                 if(BasketPrice < totalPrice)
                 {
                     totalPrice = BasketPrice;
